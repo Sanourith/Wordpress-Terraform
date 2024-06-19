@@ -31,11 +31,13 @@ module "autoscaling" {
 # }
 
 module "bastion" {
-  source          = "./modules/bastion"
-  vpc_id          = module.vpc.vpc_id
-  public_subnet_a = module.vpc.public_subnets[0]
-  ec2_sg          = module.autoscaling.autoscaling_security_group_id
-  rds_sg          = module.rds.rds_sg_id
-  key_name        = module.autoscaling.key_name
+  source                        = "./modules/bastion"
+  vpc_id                        = module.vpc.vpc_id
+  public_subnet_a               = module.vpc.public_subnets[0]
+  ec2_sg                        = module.autoscaling.autoscaling_security_group_id
+  rds_sg                        = module.rds.rds_sg_id
+  key_name                      = module.autoscaling.key_name
+  rds_sg_id                     = module.rds.rds_sg_id
+  autoscaling_security_group_id = module.autoscaling.autoscaling_security_group_id
 }
 

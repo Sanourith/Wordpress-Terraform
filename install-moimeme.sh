@@ -30,7 +30,7 @@ sudo wget https://wordpress.org/latest.tar.gz
 sudo tar -zxvf latest.tar.gz
 sudo rm latest.tar.gz
 sudo mv /var/www/html/wordpress/wp-config-sample.php /var/www/html/wordpress/wp-config.php
-
+ 
 # Configuration de wp-config.php avec les informations de la base de données
 sudo sed -i "s/database_name_here/${db_name}/g" /var/www/html/wordpress/wp-config.php
 sudo sed -i "s/username_here/${db_username}/g" /var/www/html/wordpress/wp-config.php

@@ -22,7 +22,7 @@ resource "aws_launch_template" "Wordpress" {
   instance_type = var.instance_type
   key_name      = aws_key_pair.app_key.key_name
   user_data     = base64encode(file("install-moimeme.sh"))
-  vpc_security_group_ids = [ aws_security_group.sg_app_lb.id ]
+  vpc_security_group_ids = [ aws_security_group.sg_app_lb.id, var.rds_sg_id, aws_security_group.wordpress_sg.id ]
   
   lifecycle {
     create_before_destroy = true
@@ -39,7 +39,7 @@ resource "aws_autoscaling_group" "Wordpress" {
   desired_capacity    = 1
   max_size            = 2
   min_size            = 1
-  vpc_zone_identifier = var.private_subnets
+  vpc_zone_identifier = var.public_subnets
   target_group_arns   = [aws_lb_target_group.cibles.arn] 
   launch_template {
     id      = aws_launch_template.Wordpress.id

@@ -26,3 +26,11 @@ variable "rds_sg" {
 variable "key_name" {
   type = string
 }
+
+variable "rds_sg_id" {
+  type = string
+}
+
+variable "autoscaling_security_group_id" {
+  type = string
+}
