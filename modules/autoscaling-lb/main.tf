@@ -7,7 +7,7 @@ resource "aws_key_pair" "app_key" {
 
 # Template file
 data "template_file" "install_wordpress" {
-  template = file("./install-moimeme.sh")
+  template = file("./wordpress_aws.sh")
   vars = {
     db_username      = var.db_username
     db_user_password = var.db_user_password
@@ -21,7 +21,7 @@ resource "aws_launch_template" "Wordpress" {
   image_id               = var.instance_ami
   instance_type          = var.instance_type
   key_name               = aws_key_pair.app_key.key_name
-  user_data              = base64encode(file("script-wordpress-linux_amazon.sh"))
+  user_data              = base64encode(file("wordpress_aws.sh"))
   vpc_security_group_ids = [aws_security_group.sg_app_lb.id, var.rds_sg_id, aws_security_group.wordpress_sg.id]
 
   lifecycle {

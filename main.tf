@@ -5,6 +5,9 @@ module "vpc" {
 
 module "rds" {
   source               = "./modules/rds"
+  db_name = var.db_name
+  db_user_password = var.db_user_password
+  db_username = var.db_username
   private_subnets      = module.vpc.private_subnets
   db_subnet_group_name = module.vpc.db_subnet_group_name
   vpc_id               = module.vpc.vpc_id
@@ -40,7 +43,7 @@ module "bastion" {
 
 # Joindre l'auto-scaling à la RDS :
 resource "aws_security_group_rule" "allow_mysql_access_from_wordpress" {
-  description = "rattachement ec2rds"
+  description              = "rattachement ec2rds"
   type                     = "ingress"
   from_port                = 3306
   to_port                  = 3306

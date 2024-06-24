@@ -81,17 +81,17 @@ variable "instance_class" {
 }
 variable "db_name" {
   type    = string
-  default = "wordpressdb"
+  # default = "wordpressdb" #commentée car exportées avec Terraform
 }
 variable "db_username" {
   type      = string
   sensitive = true
-  default   = "sanou"
+  # default   = "sanou" #commentée car exportées avec Terraform
 }
 variable "db_user_password" {
   type      = string
   sensitive = true
-  default   = "password"
+  # default   = "password" #commentée car exportées avec Terraform
 }
 
 variable "domain" {

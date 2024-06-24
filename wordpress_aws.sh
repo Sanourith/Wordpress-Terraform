@@ -12,7 +12,7 @@ sudo dnf update -y
 sudo dnf install -y httpd mariadb105 wget php-fpm php-mysqli php-json php amazon-efs-utils 
 
 #create wp-content mountpoint
-sudo mkdir -p /var/www/html/wp-content
+# sudo mkdir -p /var/www/html/wp-content
 # mount -t efs $EFS_FS_ID:/ /var/www/html/wp-content
 
 #install wordpress
@@ -36,14 +36,14 @@ EOF
 #change httpd.conf file to allowoverride
 #  enable .htaccess files in Apache config using sed command
 sudo sed -i '/<Directory "\/var\/www\/html">/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/httpd/conf/httpd.conf
-sudo chown -R www-data:www-data /var/www/html
+sudo chown -R apache:apache /var/www/html
 sudo chmod -R 755 /var/www/html
 
 # create phpinfo file
 echo "<?php phpinfo(); ?>" > /var/www/html/phpinfo.php
 
 # Recursively change OWNER of directory /var/www and all its contents
-chown -R apache:apache /var/www
+sudo chown -R apache:apache /var/www
 
 sudo systemctl restart httpd
 sudo systemctl enable httpd
