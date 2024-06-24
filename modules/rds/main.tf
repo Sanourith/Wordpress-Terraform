@@ -1,8 +1,8 @@
 
 # PRIMARY RDS instance
 resource "aws_db_instance" "wordpress_db" {
-  identifier = var.primary_rds_identifier
-  availability_zone = var.az[0]
+  identifier             = var.primary_rds_identifier
+  availability_zone      = var.az[0]
   allocated_storage      = var.allocated_storage
   storage_type           = var.storage_type
   engine                 = var.engine
@@ -12,7 +12,7 @@ resource "aws_db_instance" "wordpress_db" {
   username               = var.db_username
   password               = var.db_user_password
   db_subnet_group_name   = var.db_subnet_group_name
-  vpc_security_group_ids = [aws_security_group.rds_sg.id]
+  vpc_security_group_ids = [aws_security_group.rds_sg.id] #var.autoscaling_sg_id]
   skip_final_snapshot    = true
 
   lifecycle {
@@ -60,11 +60,11 @@ resource "aws_security_group" "rds_sg" {
   vpc_id      = var.vpc_id
 
   ingress {
-    from_port         = 3306
-    to_port           = 3306
-    protocol          = "tcp"
+    from_port = 3306
+    to_port   = 3306
+    protocol  = "tcp"
     # security_groups   = [var.autoscaling_security_group_id]      # [aws_security_group.app_sg.id]
-    self              = true
+    self = true
   }
 
   egress {

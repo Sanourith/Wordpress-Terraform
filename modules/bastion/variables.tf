@@ -16,11 +16,11 @@ variable "vpc_id" {
 }
 
 variable "ec2_sg" {
-    type = string
+  type = string
 }
 
 variable "rds_sg" {
-    type = string
+  type = string
 }
 
 variable "key_name" {

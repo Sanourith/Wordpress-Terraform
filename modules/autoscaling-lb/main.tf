@@ -143,7 +143,7 @@ resource "aws_lb_target_group" "cibles" {
     enabled             = true
     healthy_threshold   = 3
     interval            = 15
-    matcher             = "200"
+    matcher             = 200
     path                = "/"
     timeout             = 3
     unhealthy_threshold = 3

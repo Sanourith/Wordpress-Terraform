@@ -8,7 +8,7 @@ module "rds" {
   private_subnets      = module.vpc.private_subnets
   db_subnet_group_name = module.vpc.db_subnet_group_name
   vpc_id               = module.vpc.vpc_id
-  # autoscaling_security_group_id = module.autoscaling.autoscaling_security_group_id
+  # autoscaling_sg_id = module.autoscaling.autoscaling_security_group_id
 }
 
 module "autoscaling" {
@@ -33,3 +33,31 @@ module "bastion" {
   autoscaling_security_group_id = module.autoscaling.autoscaling_security_group_id
 }
 
+
+# Joindre l'auto-scaling à la RDS :
+resource "aws_security_group_rule" "allow_mysql_access_from_wordpress" {
+  type                     = "ingress"
+  from_port                = 3306
+  to_port                  = 3306
+  protocol                 = "tcp"
+  security_group_id        = module.rds.rds_sg_id
+  source_security_group_id = module.autoscaling.autoscaling_security_group_id
+
+  depends_on = [module.autoscaling]
+}
+
+resource "aws_security_group_rule" "remove_public_access_to_rds" {
+  type              = "ingress"
+  from_port         = 3306
+  to_port           = 3306
+  protocol          = "tcp"
+  security_group_id = module.rds.rds_sg_id
+  cidr_blocks       = ["0.0.0.0/0"]
+  # self              = true
+
+  lifecycle {
+    create_before_destroy = true
+  }
+
+  depends_on = [module.autoscaling]
+}

@@ -129,4 +129,3 @@ variable "replica_rds_identifier" {
   description = "Identifier of replica RDS instance"
 }
 
-

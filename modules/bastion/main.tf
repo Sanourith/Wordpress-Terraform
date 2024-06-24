@@ -5,7 +5,7 @@ resource "aws_instance" "bastion" {
   instance_type          = var.instance_type
   key_name               = var.key_name
   subnet_id              = var.public_subnet_a
-  vpc_security_group_ids = [aws_security_group.bastion_sg.id , var.rds_sg_id , var.autoscaling_security_group_id]
+  vpc_security_group_ids = [aws_security_group.bastion_sg.id, var.rds_sg_id, var.autoscaling_security_group_id]
   tags = {
     Name = "Bastion"
   }
@@ -55,21 +55,21 @@ resource "aws_security_group" "bastion_sg" {
 
 
 resource "aws_security_group" "liens_bastion" {
-    name = "bastion-link"
-    description = "SG EC2-RDS"
-    vpc_id = var.vpc_id
+  name        = "bastion-link"
+  description = "SG EC2-RDS"
+  vpc_id      = var.vpc_id
 
-    ingress {
-        from_port = 80
-        to_port = 80
-        protocol = "tcp"
-        security_groups = [ var.ec2_sg ]
-    }
+  ingress {
+    from_port       = 80
+    to_port         = 80
+    protocol        = "tcp"
+    security_groups = [var.ec2_sg]
+  }
 
-    ingress {
-        from_port = 3306
-        to_port = 3306
-        protocol = "tcp"
-        security_groups = [ var.rds_sg ]
-    }
+  ingress {
+    from_port       = 3306
+    to_port         = 3306
+    protocol        = "tcp"
+    security_groups = [var.rds_sg]
+  }
 }

@@ -52,18 +52,18 @@ resource "aws_subnet" "private_subnet_b" {
 }
 
 resource "aws_subnet" "private_db_subnet" {
-  vpc_id = aws_vpc.app_vpc.id
-  cidr_block = "10.0.5.0/24"
+  vpc_id            = aws_vpc.app_vpc.id
+  cidr_block        = "10.0.5.0/24"
   availability_zone = var.az[0]
 }
 resource "aws_subnet" "private_db_subnet2" {
-  vpc_id = aws_vpc.app_vpc.id
-  cidr_block = "10.0.6.0/24"
+  vpc_id            = aws_vpc.app_vpc.id
+  cidr_block        = "10.0.6.0/24"
   availability_zone = var.az[1]
 }
 
 resource "aws_db_subnet_group" "main" {
-  name       = "db-subnet-group"
+  name = "db-subnet-group"
   subnet_ids = [
     # aws_subnet.private_subnet_a.id,
     # aws_subnet.private_subnet_b.id
@@ -183,7 +183,7 @@ resource "aws_route_table_association" "private_b" {
 #   route_table_id = aws_route_table.private_db.id
 #   subnet_id = aws_db_subnet_group.main.id
 # }
- 
+
 ### NACL 
 
 resource "aws_network_acl" "nacl_publica" {
