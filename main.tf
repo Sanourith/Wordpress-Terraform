@@ -21,6 +21,10 @@ module "autoscaling" {
   depends_on      = [module.rds]
 }
 
+# module "security_group" {
+#   source = "./modules/security_groups"
+# }
+
 
 module "bastion" {
   source                        = "./modules/bastion"
@@ -36,6 +40,7 @@ module "bastion" {
 
 # Joindre l'auto-scaling à la RDS :
 resource "aws_security_group_rule" "allow_mysql_access_from_wordpress" {
+  description = "rattachement ec2rds"
   type                     = "ingress"
   from_port                = 3306
   to_port                  = 3306
@@ -46,18 +51,19 @@ resource "aws_security_group_rule" "allow_mysql_access_from_wordpress" {
   depends_on = [module.autoscaling]
 }
 
-resource "aws_security_group_rule" "remove_public_access_to_rds" {
-  type              = "ingress"
-  from_port         = 3306
-  to_port           = 3306
-  protocol          = "tcp"
-  security_group_id = module.rds.rds_sg_id
-  cidr_blocks       = ["0.0.0.0/0"]
-  # self              = true
+# resource "aws_security_group_rule" "apply_public_access_to_rds" {
+#   type              = "ingress"
+#   from_port         = 3306
+#   to_port           = 3306
+#   protocol          = "tcp"
+#   security_group_id = module.rds.rds_sg_id
+#   source_security_group_id = module.autoscaling.autoscaling_security_group_id
+#   # cidr_blocks       = ["0.0.0.0/0"]
+#   # self              = true
 
-  lifecycle {
-    create_before_destroy = true
-  }
+#   lifecycle {
+#     create_before_destroy = true
+#   }
 
-  depends_on = [module.autoscaling]
-}
+#   depends_on = [module.autoscaling]
+# }
