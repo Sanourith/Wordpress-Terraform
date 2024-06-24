@@ -41,7 +41,8 @@ variable "priv2name" {
 #>-------------------------
 variable "instance_ami" {
   type    = string
-  default = "ami-00ac45f3035ff009e"
+  default = "ami-0fda19674ff597992" # amazon linux
+  # default = "ami-00ac45f3035ff009e" #ubuntu
 }
 variable "instance_type" {
   type    = string

@@ -21,7 +21,7 @@ resource "aws_launch_template" "Wordpress" {
   image_id               = var.instance_ami
   instance_type          = var.instance_type
   key_name               = aws_key_pair.app_key.key_name
-  user_data              = base64encode(file("install-moimeme.sh"))
+  user_data              = base64encode(file("script-wordpress-linux_amazon.sh"))
   vpc_security_group_ids = [aws_security_group.sg_app_lb.id, var.rds_sg_id, aws_security_group.wordpress_sg.id]
 
   lifecycle {
