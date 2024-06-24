@@ -17,13 +17,13 @@ data "template_file" "install_wordpress" {
 }
 
 resource "aws_launch_template" "Wordpress" {
-  name          = "app-launch-template"
-  image_id      = var.instance_ami
-  instance_type = var.instance_type
-  key_name      = aws_key_pair.app_key.key_name
-  user_data     = base64encode(file("install-moimeme.sh"))
-  vpc_security_group_ids = [ aws_security_group.sg_app_lb.id, var.rds_sg_id, aws_security_group.wordpress_sg.id ]
-  
+  name                   = "app-launch-template"
+  image_id               = var.instance_ami
+  instance_type          = var.instance_type
+  key_name               = aws_key_pair.app_key.key_name
+  user_data              = base64encode(file("install-moimeme.sh"))
+  vpc_security_group_ids = [aws_security_group.sg_app_lb.id, var.rds_sg_id, aws_security_group.wordpress_sg.id]
+
   lifecycle {
     create_before_destroy = true
   }
@@ -31,16 +31,16 @@ resource "aws_launch_template" "Wordpress" {
   tags = {
     Name = "app-template"
   }
-#   depends_on = [module.aws_db_instance.wordpress_db]
+  #   depends_on = [module.aws_db_instance.wordpress_db]
 }
 
 resource "aws_autoscaling_group" "Wordpress" {
-  name = "auto-scaling-app"
+  name                = "auto-scaling-app"
   desired_capacity    = 1
   max_size            = 2
   min_size            = 1
   vpc_zone_identifier = var.public_subnets
-  target_group_arns   = [aws_lb_target_group.cibles.arn] 
+  target_group_arns   = [aws_lb_target_group.cibles.arn]
   launch_template {
     id      = aws_launch_template.Wordpress.id
     version = aws_launch_template.Wordpress.latest_version
@@ -60,8 +60,8 @@ resource "aws_autoscaling_group" "Wordpress" {
 # ------------------------------------------------
 # ------------------------------------------------
 resource "aws_autoscaling_attachment" "asg_attachment" {
-    autoscaling_group_name = aws_autoscaling_group.Wordpress.name
-    lb_target_group_arn = aws_lb_target_group.cibles.arn
+  autoscaling_group_name = aws_autoscaling_group.Wordpress.name
+  lb_target_group_arn    = aws_lb_target_group.cibles.arn
 }
 # ------------------------------------------------
 # ------------------------------------------------
@@ -93,9 +93,9 @@ resource "aws_security_group" "wordpress_sg" {
   }
   #connect DB
   ingress {
-    from_port = 3306
-    to_port = 3306
-    protocol = "tcp"
+    from_port       = 3306
+    to_port         = 3306
+    protocol        = "tcp"
     security_groups = [var.rds_sg_id]
   }
 
@@ -164,8 +164,8 @@ resource "aws_lb_listener" "front_end" {
 
 # ## Joindre l' instance A à la zone de disponibilté A au groupe cible
 resource "aws_autoscaling_attachment" "app_tg_attachment" {
-autoscaling_group_name = aws_autoscaling_group.Wordpress.name
-lb_target_group_arn = aws_lb_target_group.cibles.arn
+  autoscaling_group_name = aws_autoscaling_group.Wordpress.name
+  lb_target_group_arn    = aws_lb_target_group.cibles.arn
 }
 
 # ## Joindre l' instance B à la zone de disponibilté B au groupe cible

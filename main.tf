@@ -3,11 +3,6 @@ module "vpc" {
   source = "./modules/vpc"
 }
 
-# module "security_groups" {
-#   source = "./modules/security_groups"
-#   # vpc_id = module.vpc_id
-# }
-
 module "rds" {
   source               = "./modules/rds"
   private_subnets      = module.vpc.private_subnets
@@ -26,9 +21,6 @@ module "autoscaling" {
   depends_on      = [module.rds]
 }
 
-# module "load_balancer" {
-#   source = "./modules/load_balancer"
-# }
 
 module "bastion" {
   source                        = "./modules/bastion"

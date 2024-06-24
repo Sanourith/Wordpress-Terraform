@@ -219,3 +219,50 @@ resource "aws_network_acl_rule" "nat_inboundb" {
   from_port      = 0
   to_port        = 0
 }
+
+# EFS
+
+resource "aws_efs_file_system" "wordpress_EFS" {
+  creation_token = "wordpress-EFS"
+
+  tags = {
+    Name = "wordpress-EFS"
+  }
+}
+
+# Mount efs on targets
+resource "aws_efs_mount_target" "efs_mounta" {
+  # count          = length(aws_subnet.private_subnet_a, aws_subnet.private_subnet_b)
+  file_system_id = aws_efs_file_system.wordpress_EFS.id
+  # subnet_id      = "${element(aws_subnet.private_app_subnets.*.id, count.index)}"
+  subnet_id       = aws_subnet.private_subnet_a.id
+  security_groups = [aws_security_group.efs_sg.id]
+}
+resource "aws_efs_mount_target" "efs_mountb" {
+  # count          = length(aws_subnet.private_subnet_a, aws_subnet.private_subnet_b)
+  file_system_id = aws_efs_file_system.wordpress_EFS.id
+  # subnet_id      = "${element(aws_subnet.private_app_subnets.*.id, count.index)}"
+  subnet_id       = aws_subnet.private_subnet_b.id
+  security_groups = [aws_security_group.efs_sg.id]
+}
+
+resource "aws_security_group" "efs_sg" {
+  name        = "efs-access"
+  description = "Allow NFS traffic"
+  vpc_id      = aws_vpc.app_vpc.id
+
+  ingress {
+    from_port   = 2049
+    to_port     = 2049
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+}

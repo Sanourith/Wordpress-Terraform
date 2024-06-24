@@ -49,10 +49,10 @@ variable "instance_type" {
 }
 
 variable "private_subnets" {
-    type = list(string)
+  type = list(string)
 }
 variable "public_subnets" {
-    type = list(string)
+  type = list(string)
 }
 variable "rds_sg_id" {
   type = string
