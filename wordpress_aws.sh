@@ -16,19 +16,20 @@ sudo dnf install -y httpd mariadb105 wget php-fpm php-mysqli php-json php amazon
 # mount -t efs $EFS_FS_ID:/ /var/www/html/wp-content
 
 #install wordpress
-cd /var/www/html
+cd /var/www/
 sudo wget https://wordpress.org/latest.tar.gz
 sudo tar -zxvf latest.tar.gz
+sudo mv wordpress/* /var/www/html/
 sudo rm latest.tar.gz
-sudo mv /var/www/html/wordpress/wp-config-sample.php /var/www/html/wordpress/wp-config.php
+sudo mv /var/www/html/wp-config-sample.php /var/www/html/wp-config.php
 
 #change wp-config with DB details
-sudo sed -i "s/database_name_here/${db_name}/g" /var/www/html/wordpress/wp-config.php # sudo sed -i "s/database_name_here/wordpressdb/g" /var/www/html/wordpress/wp-config.php 
-sudo sed -i "s/username_here/${db_username}/g" /var/www/html/wordpress/wp-config.php # sudo sed -i "s/username_here/sanou/g" /var/www/html/wordpress/wp-config.php
-sudo sed -i "s/password_here/${db_user_password}/g" /var/www/html/wordpress/wp-config.php # sudo sed -i "s/password_here/password/g" /var/www/html/wordpress/wp-config.php
-sudo sed -i "s/localhost/${db_endpoint}/g" /var/www/html/wordpress/wp-config.php # sudo sed -i "s/localhost/wordpress-rds-instance.cbgy0ouc03so.eu-west-3.rds.amazonaws.com/g" /var/www/html/wordpress/wp-config.php
+sudo sed -i "s/database_name_here/${db_name}/g" /var/www/html/wp-config.php 
+sudo sed -i "s/username_here/${db_username}/g" /var/www/html/wp-config.php 
+sudo sed -i "s/password_here/${db_user_password}/g" /var/www/html/wp-config.php 
+sudo sed -i "s/localhost/${db_endpoint}/g" /var/www/html/wp-config.php  
 
-cat <<EOF | sudo tee -a /var/www/html/wordpress/wp-config.php
+cat <<EOF | sudo tee -a /var/www/html/wp-config.php
 define( 'FS_METHOD', 'direct' );
 define('WP_MEMORY_LIMIT', '256M');
 EOF
@@ -46,7 +47,7 @@ sudo chmod -R 755 /var/www/html
 # chown apache:apache -R /var/www/html
 
 # create phpinfo file
-echo "<?php phpinfo(); ?>" > /var/www/html/phpinfo.php
+# sudo echo "<?php phpinfo(); ?>" > /var/www/html/wordpress/phpinfo.php
 
 # Recursively change OWNER of directory /var/www and all its contents
 sudo chown -R apache:apache /var/www
