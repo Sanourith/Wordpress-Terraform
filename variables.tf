@@ -11,7 +11,7 @@ variable "db_name" {
 variable "db_username" {
   type      = string
   sensitive = true
-  default   = "sanou" 
+  default   = "sanou"
   # default   = "sanou"  # export TF_VAR_db_username="sanou"
 }
 variable "db_user_password" {

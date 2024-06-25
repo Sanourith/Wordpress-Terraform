@@ -5,9 +5,9 @@ module "vpc" {
 
 module "rds" {
   source               = "./modules/rds"
-  db_name = var.db_name
-  db_user_password = var.db_user_password
-  db_username = var.db_username
+  db_name              = var.db_name
+  db_user_password     = var.db_user_password
+  db_username          = var.db_username
   private_subnets      = module.vpc.private_subnets
   db_subnet_group_name = module.vpc.db_subnet_group_name
   vpc_id               = module.vpc.vpc_id
@@ -15,16 +15,16 @@ module "rds" {
 }
 
 module "autoscaling" {
-  source          = "./modules/autoscaling-lb"
-  vpc_id          = module.vpc.vpc_id
-  public_subnets  = module.vpc.public_subnets
-  private_subnets = module.vpc.private_subnets
-  rds_sg_id       = module.rds.rds_sg_id
-  db_endpoint     = module.rds.db_instance_endpoint
-  depends_on      = [module.rds]
-  db_name = var.db_name
+  source           = "./modules/autoscaling-lb"
+  vpc_id           = module.vpc.vpc_id
+  public_subnets   = module.vpc.public_subnets
+  private_subnets  = module.vpc.private_subnets
+  rds_sg_id        = module.rds.rds_sg_id
+  db_endpoint      = module.rds.db_instance_endpoint
+  depends_on       = [module.rds]
+  db_name          = var.db_name
   db_user_password = var.db_user_password
-  db_username = var.db_username
+  db_username      = var.db_username
 }
 
 # module "security_group" {
