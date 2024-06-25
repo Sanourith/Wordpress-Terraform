@@ -4,7 +4,7 @@
 # }
 
 variable "db_name" {
-  type    = string
+  type = string
   # default = "wordpressdb"  # export TF_VAR_db_name="wordpressdb"
 }
 variable "db_username" {
