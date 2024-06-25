@@ -87,17 +87,17 @@ variable "instance_class" {
 }
 variable "db_name" {
   type    = string
-  default = "wordpressdb"
+  # default = "wordpressdb" # export TF_VAR_db_name="wordpressdb"
 }
 variable "db_username" {
   type      = string
   sensitive = true
-  default   = "sanou"
+  # default   = "sanou" # export TF_VAR_db_username="sanou"
 }
 variable "db_user_password" {
   type      = string
   sensitive = true
-  default   = "password"
+  # default   = "password" # export TF_VAR_db_user_password="password"
 }
 
 variable "db_endpoint" {

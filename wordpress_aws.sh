@@ -23,10 +23,10 @@ sudo rm latest.tar.gz
 sudo mv /var/www/html/wordpress/wp-config-sample.php /var/www/html/wordpress/wp-config.php
 
 #change wp-config with DB details
-sudo sed -i "s/database_name_here/${db_name}/g" /var/www/html/wordpress/wp-config.php
-sudo sed -i "s/username_here/${db_username}/g" /var/www/html/wordpress/wp-config.php
-sudo sed -i "s/password_here/${db_user_password}/g" /var/www/html/wordpress/wp-config.php
-sudo sed -i "s/localhost/${db_endpoint}/g" /var/www/html/wordpress/wp-config.php
+sudo sed -i "s/database_name_here/${db_name}/g" /var/www/html/wordpress/wp-config.php # sudo sed -i "s/database_name_here/wordpressdb/g" /var/www/html/wordpress/wp-config.php 
+sudo sed -i "s/username_here/${db_username}/g" /var/www/html/wordpress/wp-config.php # sudo sed -i "s/username_here/sanou/g" /var/www/html/wordpress/wp-config.php
+sudo sed -i "s/password_here/${db_user_password}/g" /var/www/html/wordpress/wp-config.php # sudo sed -i "s/password_here/password/g" /var/www/html/wordpress/wp-config.php
+sudo sed -i "s/localhost/${db_endpoint}/g" /var/www/html/wordpress/wp-config.php # sudo sed -i "s/localhost/wordpress-rds-instance.cbgy0ouc03so.eu-west-3.rds.amazonaws.com/g" /var/www/html/wordpress/wp-config.php
 
 cat <<EOF | sudo tee -a /var/www/html/wordpress/wp-config.php
 define( 'FS_METHOD', 'direct' );
@@ -38,6 +38,12 @@ EOF
 sudo sed -i '/<Directory "\/var\/www\/html">/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/httpd/conf/httpd.conf
 sudo chown -R apache:apache /var/www/html
 sudo chmod -R 755 /var/www/html
+
+# sudo usermod -a -G apache ec2-user
+# sudo chown -R ec2-user:apache /var/www
+# sudo chmod 2775 /var/www && find /var/www -type d -exec sudo chmod 2775 {} \;
+# sudo find /var/www -type f -exec sudo chmod 0664 {} \;
+# chown apache:apache -R /var/www/html
 
 # create phpinfo file
 echo "<?php phpinfo(); ?>" > /var/www/html/phpinfo.php

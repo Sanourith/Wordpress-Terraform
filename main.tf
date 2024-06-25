@@ -22,6 +22,9 @@ module "autoscaling" {
   rds_sg_id       = module.rds.rds_sg_id
   db_endpoint     = module.rds.db_instance_endpoint
   depends_on      = [module.rds]
+  db_name = var.db_name
+  db_user_password = var.db_user_password
+  db_username = var.db_username
 }
 
 # module "security_group" {
