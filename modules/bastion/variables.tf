@@ -7,7 +7,7 @@ variable "instance_type" {
   type    = string
   default = "t2.micro"
 }
-
+ 
 variable "public_subnet_a" {
   type = string
 }

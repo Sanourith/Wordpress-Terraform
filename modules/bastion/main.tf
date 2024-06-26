@@ -1,5 +1,5 @@
 
-
+ 
 resource "aws_instance" "bastion" {
   ami                    = var.instance_ami
   instance_type          = var.instance_type

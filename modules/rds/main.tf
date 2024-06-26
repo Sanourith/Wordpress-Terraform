@@ -14,7 +14,7 @@ resource "aws_db_instance" "wordpress_db" {
   db_subnet_group_name   = var.db_subnet_group_name
   vpc_security_group_ids = [aws_security_group.rds_sg.id] #var.autoscaling_sg_id]
   skip_final_snapshot    = true
-
+ 
   lifecycle {
     ignore_changes = [password]
   }

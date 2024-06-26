@@ -13,7 +13,7 @@ module "rds" {
   vpc_id               = module.vpc.vpc_id
   # autoscaling_sg_id = module.autoscaling.autoscaling_security_group_id
 }
-
+ 
 module "autoscaling" {
   source           = "./modules/autoscaling-lb"
   vpc_id           = module.vpc.vpc_id

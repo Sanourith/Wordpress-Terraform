@@ -4,7 +4,7 @@ resource "aws_key_pair" "app_key" {
   key_name   = "app-key"
   public_key = file("~/.ssh/id_rsa.pub")
 }
-
+ 
 # Template file
 data "template_file" "install_wordpress" {
   template = file("./wordpress_aws.sh")

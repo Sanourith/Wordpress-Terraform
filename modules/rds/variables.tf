@@ -9,7 +9,7 @@ variable "vpc_name" {
   type    = string
   default = "matt-vpc"
 }
-
+ 
 variable "private_subnets" {
   type = list(string)
   # default = [aws_subnet.private_subnet_a.id, aws_subnet.private_subnet_b.id]

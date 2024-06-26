@@ -10,7 +10,7 @@ variable "vpc_name" {
   default = "wordpress-vpc"
 }
 
-
+ 
 ### SUBNETS
 #>-------------------------
 variable "az" {

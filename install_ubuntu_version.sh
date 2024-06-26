@@ -25,19 +25,19 @@ sudo systemctl start nginx
 sudo systemctl enable nginx
 
 # Préparation de WordPress
-cd /var/www/html
+cd /var/www/
 sudo wget https://wordpress.org/latest.tar.gz
 sudo tar -zxvf latest.tar.gz
 sudo rm latest.tar.gz
-sudo mv /var/www/html/wordpress/wp-config-sample.php /var/www/html/wordpress/wp-config.php
+sudo mv /var/www/html/wp-config-sample.php /var/www/html/wp-config.php
  
 # Configuration de wp-config.php avec les informations de la base de données
-sudo sed -i "s/database_name_here/${db_name}/g" /var/www/html/wordpress/wp-config.php
-sudo sed -i "s/username_here/${db_username}/g" /var/www/html/wordpress/wp-config.php
-sudo sed -i "s/password_here/${db_user_password}/g" /var/www/html/wordpress/wp-config.php
-sudo sed -i "s/localhost/${db_endpoint}/g" /var/www/html/wordpress/wp-config.php
+sudo sed -i "s/database_name_here/${db_name}/g" /var/www/html/wp-config.php
+sudo sed -i "s/username_here/${db_username}/g" /var/www/html/wp-config.php
+sudo sed -i "s/password_here/${db_user_password}/g" /var/www/html/wp-config.php
+sudo sed -i "s/localhost/${db_endpoint}/g" /var/www/html/wp-config.php
 
-cat <<EOF | sudo tee -a /var/www/html/wordpress/wp-config.php
+cat <<EOF | sudo tee -a /var/www/html/wp-config.php
 define( 'FS_METHOD', 'direct' );
 define('WP_MEMORY_LIMIT', '256M');
 EOF

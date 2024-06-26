@@ -7,7 +7,7 @@ resource "aws_vpc" "app_vpc" {
   tags = {
     Name = var.vpc_name
   }
-}
+} 
 
 ### SUBNETS
 
